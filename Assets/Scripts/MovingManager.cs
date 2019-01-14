@@ -18,8 +18,9 @@ public class MovingManager : MonoBehaviour
     public float minAccelerationRange = 2.5f;
 
     [Header("가속도 값(참고용)")]
-    public float move = 0;
+    public float debug_Acceleration;
 
+    float move = 0;
     float[] saveLength = new float[2];
     float movingTime = 0;
     bool[] bMovementValueSwitching = new bool[2];
@@ -66,7 +67,7 @@ public class MovingManager : MonoBehaviour
                 bMovementFunctionSwitching = false;
             }
             float acceleration = AccelerationCalculator(valueY);
-            
+            debug_Acceleration = acceleration;
             if (acceleration > minAccelerationRange)
             {
                 move = 1;
