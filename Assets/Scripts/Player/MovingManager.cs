@@ -39,6 +39,26 @@ public class MovingManager : MonoBehaviour
         Vector3 targetPos = new Vector3(axis.x, headAxis.transform.position.y, axis.z);
         headAxis.transform.LookAt(targetPos);
         moveAxis.transform.eulerAngles = headAxis.transform.eulerAngles;
+        /*
+                float headAxisAngleY = headAxis.transform.eulerAngles.y;
+                float moveAxisAngleY = moveAxis.transform.eulerAngles.y;
+
+                if (headAxisAngleY > 180)
+                {
+                    if (moveAxisAngleY > 180)
+                    {
+                    }
+                    else
+                    {
+
+                    }
+                }
+                else
+                {
+
+                }*/
+
+        //moveAxis.transform.eulerAngles = new Vector3(0, Mathf.Lerp(moveAxis.transform.eulerAngles.y, headAxis.transform.eulerAngles.y, Time.deltaTime), 0); // headAxis.transform.eulerAngles;
 
         Vector3[] controllerPos = { controllerFollower[0].transform.localPosition, controllerFollower[1].transform.localPosition };
         MovingControl(ref controllerPos);
