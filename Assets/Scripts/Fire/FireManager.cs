@@ -6,18 +6,16 @@ public class FireManager : MonoBehaviour
 {
     public enum Firekind { Basic, Time, Water };
     public Firekind firekind;
-
+    GameObject attackChack;
     [Header ("시간 선택시 활성")]
     public float maxScale = 3;
-    public float HPTime = 100;
-    public float maxTime = 2;
+    public float increaseHP = 100;
     
     [Header("물 선택시 활성")]
     public float waterValueHP = 30;
     [Header("공통")]
     public float HP;
-    public float receiveDamageValue;
-    public float damageTime;
+    public float[] receiveDamageValue=new float[2];
     public bool bDownHP = false;
     bool bSwitching = false;
     bool bBasic = false;
@@ -27,33 +25,31 @@ public class FireManager : MonoBehaviour
     }
     IEnumerator StartFire()
     {
-        
-
+        Vector3 scale = transform.localScale;
+        float maxHP = (maxScale+ scale.y)/(HP + increaseHP);
+        Vector3 fireScaleTime = scale / HP;
+        Debug.Log(fireScaleTime.z);
+        float HPLimit = (increaseHP + HP);
         switch ((int)firekind)
         {
             case 0:
                 HP = Random.Range(100, 200);
+                fireScaleTime = scale / HP;
                 bBasic = true;
                 break;
             case 1:
+                fireScaleTime = new Vector3(maxHP, maxHP, maxHP);
                 bSwitching = true;
                 break;
             case 2:
                 bSwitching = false;
                 break;
         }
-        Vector3 scale = transform.localScale;
-        Vector3 fireScaleTime = ((new Vector3(1,1,1)* maxScale)+ scale) / maxTime;
-        float HPLimit = (HPTime + HP) / maxTime;
-
-        float damage = HP/receiveDamageValue ;
-        Vector3 damageScale = scale / receiveDamageValue;
         while (true)
         {
             if (bDownHP)
             {
-                HP -= (Time.deltaTime * damage) * damageTime;
-                scale -= (damageScale * Time.deltaTime)* damageTime;
+                HP -= (Time.deltaTime * receiveDamageValue[0]);
             }
             else
             {
@@ -63,13 +59,25 @@ public class FireManager : MonoBehaviour
                     {
                         if (HP < HPLimit)
                         {
-                            scale += fireScaleTime * Time.deltaTime;
-                            HP += HPTime * Time.deltaTime;
+                            HP += increaseHP * Time.deltaTime;
                         }
                     }
                 }
             }
-            transform.localScale = scale;
+            transform.localScale = fireScaleTime * HP;
+
+            if (attackChack == null)
+            {
+                bDownHP = false;
+            }
+            else if (attackChack.activeSelf == false)
+            {
+                bDownHP = false;
+            }
+            else
+            {
+                bDownHP = true;
+            }
             if (HP < 0)
             {
                 break;
@@ -82,23 +90,30 @@ public class FireManager : MonoBehaviour
     {
         if (col.tag == "Attack")
         {
+            attackChack = col.gameObject;
             bDownHP = true;
         }
     }
     private void OnTriggerEnter(Collider col)
     {
-        if (col.tag == "Item")
+        if (col.tag == "Water")
         {
             if (!bSwitching)
             {
                 HP += waterValueHP;
             }
         }
+        else if (col.tag == "BottelAttack")
+        {
+            HP -= receiveDamageValue[1];
+            col.GetComponent<SphereCollider>().enabled = false;
+        }
     }
     private void OnTriggerExit(Collider col)
     {
         if (col.tag == "Attack")
         {
+            attackChack = null;
             bDownHP = false;
         }
     }

@@ -9,6 +9,9 @@ TagManager:
   - Ground
   - Attack
   - BodyHP
+  - EnemyItme
+  - Water
+  - BottelAttack
   layers:
   - Default
   - TransparentFX
