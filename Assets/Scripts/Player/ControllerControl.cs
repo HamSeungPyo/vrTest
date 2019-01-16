@@ -24,7 +24,10 @@ public class ControllerControl : MonoBehaviour
             bTriggerPressDown = true;
             if (itemHolding != null)
             {
-                itemHolding.GetComponent<FireExtManager>().GetPinState();
+                if(itemHolding.GetComponent<FireExtManager>())
+                    itemHolding.GetComponent<FireExtManager>().GetPinState();
+                else
+                    itemHolding.GetComponent<FireExtBottelManager>().ItemHolding(true);
             }
         }
         else
@@ -35,7 +38,11 @@ public class ControllerControl : MonoBehaviour
                 bItemToHandHolded = false;
                 if (itemHolding != null)
                 {
-                    itemHolding.GetComponent<FireExtManager>().StartingFireExtinguisher(false);
+                    if (itemHolding.GetComponent<FireExtManager>())
+                        itemHolding.GetComponent<FireExtManager>().StartingFireExtinguisher(false);
+                    else
+                        itemHolding.GetComponent<FireExtBottelManager>().ItemHolding(false);
+
                     itemHolding.GetComponent<Rigidbody>().isKinematic = false;
                     itemHolding.GetComponent<CapsuleCollider>().enabled = true;
                     itemHolding.transform.parent = null;
