@@ -7,6 +7,8 @@ TagManager:
   - Item
   - OperationItem
   - Ground
+  - Attack
+  - BodyHP
   layers:
   - Default
   - TransparentFX
@@ -19,8 +21,8 @@ TagManager:
   - Item
   - Ground
   - Player
-  - 
-  - 
+  - Enemy
+  - Enemy_Attack
   - 
   - 
   - 
