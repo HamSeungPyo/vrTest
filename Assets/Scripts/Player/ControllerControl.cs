@@ -83,7 +83,6 @@ public class ControllerControl : MonoBehaviour
                 }
                 else if (coll.tag == "OperationItem")
                 {
-                    bItemToHandHolded = true;
                     if (coll.GetComponent<FireExtPinControl>())
                     {
                         coll.GetComponent<FireExtPinControl>().SetPinMove(transform.position);
