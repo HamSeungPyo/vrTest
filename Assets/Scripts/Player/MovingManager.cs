@@ -6,7 +6,7 @@ public class MovingManager : MonoBehaviour
     public GameObject[] controllerFollower = new GameObject[2];
     public GameObject moveAxis;
     public GameObject headAxis;
-
+    public PlayerCollider script_playerCollider;
     [Header("수정 가능한것")]
     public float frictionValue = 2;
     public float accelerationTime = 2;
@@ -16,6 +16,8 @@ public class MovingManager : MonoBehaviour
     public float maxFindingRange__AxisZ = 0.1f;
     public float maxFindedToControllerRange = 0.4f;
     public float minAccelerationRange = 2.5f;
+    public float HP = 100;
+    public float receiveDamageValue = 15;
 
     [Header("가속도 값(참고용)")]
     public float debug_Acceleration;
@@ -25,7 +27,8 @@ public class MovingManager : MonoBehaviour
     float movingTime = 0;
     bool[] bMovementValueSwitching = new bool[2];
     bool bMovementFunctionSwitching = false;
-    
+
+
     void Start ()
     {
         
@@ -39,7 +42,7 @@ public class MovingManager : MonoBehaviour
         Vector3 targetPos = new Vector3(axis.x, headAxis.transform.position.y, axis.z);
         headAxis.transform.LookAt(targetPos);
         moveAxis.transform.eulerAngles = headAxis.transform.eulerAngles;
-        /*
+        /* 좌우 흔들림 보정 만들어야함
                 float headAxisAngleY = headAxis.transform.eulerAngles.y;
                 float moveAxisAngleY = moveAxis.transform.eulerAngles.y;
 
@@ -64,8 +67,17 @@ public class MovingManager : MonoBehaviour
         MovingControl(ref controllerPos);
 
         transform.Translate(moveAxis.transform.forward * (move * moveSpeed) * Time.deltaTime);
+        if (script_playerCollider.ReceiveDamage && HP > 0)
+        {
+            HP -= receiveDamageValue * Time.deltaTime;
+        }
+        else if (HP <= 0)
+        {
+
+        }
 
     }
+    
     void MovingControl(ref Vector3[] controllerPos)
     {
         float valueX = Mathf.Abs(controllerPos[0].x - controllerPos[1].x);
@@ -112,6 +124,7 @@ public class MovingManager : MonoBehaviour
         {
             saveLength[1] = moveDistance;
             saveLength[0] = moveDistance;
+            movingTime = 0;
             return 0;
         }
         if (saveLength[1] < moveDistance)

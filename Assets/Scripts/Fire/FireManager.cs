@@ -72,11 +72,8 @@ public class FireManager : MonoBehaviour
             }
             else if (attackChack.activeSelf == false)
             {
+                attackChack = null;
                 bDownHP = false;
-            }
-            else
-            {
-                bDownHP = true;
             }
             if (HP < 0)
             {

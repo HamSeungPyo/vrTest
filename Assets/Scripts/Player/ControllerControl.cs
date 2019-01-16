@@ -8,6 +8,7 @@ public class ControllerControl : MonoBehaviour
 {
     SteamVR_TrackedObject trackedObj;
     GameObject itemHolding;
+    public GameObject hand;
     bool bTriggerPressDown = false;
     bool bTouchpadPressDown = false;
     bool bItemToHandHolded=false;
@@ -19,6 +20,13 @@ public class ControllerControl : MonoBehaviour
     {
         var device = SteamVR_Controller.Input((int)trackedObj.index);
 
+
+        
+        /*if (origin != null)
+        {
+            rigidbody.velocity = origin.TransformVector(device.velocity);
+            rigidbody.angularVelocity = origin.TransformVector(device.angularVelocity);
+        }*/
         if (device.GetPress(SteamVR_Controller.ButtonMask.Trigger))
         {
             bTriggerPressDown = true;
@@ -46,11 +54,14 @@ public class ControllerControl : MonoBehaviour
                     itemHolding.GetComponent<Rigidbody>().isKinematic = false;
                     itemHolding.GetComponent<CapsuleCollider>().enabled = true;
                     itemHolding.transform.parent = null;
+                    var origin = trackedObj.origin ? trackedObj.origin : trackedObj.transform.parent;
+                    itemHolding.GetComponent<Rigidbody>().velocity = origin.TransformVector(device.velocity);
+                    itemHolding.GetComponent<Rigidbody>().angularVelocity = origin.TransformVector(device.angularVelocity);
                     itemHolding = null;
                 }
             }
         }
-
+        hand.SetActive(!bItemToHandHolded);
         if (device.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
         {
             bTouchpadPressDown = true;
@@ -61,7 +72,8 @@ public class ControllerControl : MonoBehaviour
         }
         if (bItemToHandHolded)
         {
-            itemHolding.GetComponent<FireExtManager>().StartingFireExtinguisher(bTouchpadPressDown);
+            if (itemHolding.GetComponent<FireExtManager>())
+                itemHolding.GetComponent<FireExtManager>().StartingFireExtinguisher(bTouchpadPressDown);
         }
 
     }

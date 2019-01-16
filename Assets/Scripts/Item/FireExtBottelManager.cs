@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class FireExtBottelManager : MonoBehaviour
 {
+    public GameObject renderer;
     public GameObject effect;
+    public float impactPower = 2;
     bool bVelocity = false;
     bool bHolding = false;
 
@@ -21,7 +23,7 @@ public class FireExtBottelManager : MonoBehaviour
         }
         Vector3 velocity = GetComponent<Rigidbody>().velocity;
         float velocityPower = Mathf.Abs(velocity.x) + Mathf.Abs(velocity.y) + Mathf.Abs(velocity.z);
-        if (velocityPower > 2)
+        if (velocityPower > impactPower)
         {
             bVelocity = true;
         }
@@ -37,7 +39,7 @@ public class FireExtBottelManager : MonoBehaviour
     IEnumerator StartEffect()
     {
         GameObject startEffect = Instantiate(effect, transform.position, Quaternion.identity);
-        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        renderer.GetComponent<MeshRenderer>().enabled = false;
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
         yield return new WaitForSeconds(2f);
         Destroy(startEffect);

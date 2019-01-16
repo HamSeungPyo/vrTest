@@ -6,6 +6,7 @@ public class FireExtManager : MonoBehaviour
 {
     public GameObject pin;
     public GameObject particle;
+    public GameObject trigger;
     bool bStartingFireExtinguisher=false;
 
     private void Awake()
@@ -33,6 +34,7 @@ public class FireExtManager : MonoBehaviour
         if (bStartingFireExtinguisher)
         {
             particle.SetActive(set);
+            trigger.SetActive(set);
         }
     }
     public bool GetPinState()
