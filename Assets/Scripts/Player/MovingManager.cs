@@ -7,7 +7,7 @@ public class MovingManager : MonoBehaviour
     public GameObject moveAxis;
     public GameObject headAxis;
     public PlayerCollider script_playerCollider;
-    [Header("수정 가능한것")]
+    [Header("컨트롤러 설정")]
     public float frictionValue = 2;
     public float accelerationTime = 2;
     public float moveSpeed = 5;
@@ -16,6 +16,7 @@ public class MovingManager : MonoBehaviour
     public float maxFindingRange__AxisZ = 0.1f;
     public float maxFindedToControllerRange = 0.4f;
     public float minAccelerationRange = 2.5f;
+    [Header("체력및 받는 데미지")]
     public float HP = 100;
     public float receiveDamageValue = 15;
 

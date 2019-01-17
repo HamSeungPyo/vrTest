@@ -77,6 +77,15 @@ public class ControllerControl : MonoBehaviour
         }
 
     }
+    bool uiButtonChack = true;
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.layer == LayerMask.NameToLayer("UI") && uiButtonChack)
+        {
+            uiButtonChack = false;
+            col.GetComponent<RayButtonControl>().touchEvent.Invoke();
+        }
+    }
     private void OnTriggerStay(Collider coll)
     {
         if (!bItemToHandHolded)
@@ -121,14 +130,18 @@ public class ControllerControl : MonoBehaviour
             }
         }
     }
-    private void OnTriggerExit(Collider coll)
+    private void OnTriggerExit(Collider col)
     {
-        if (coll.tag == "OperationItem")
+        if (col.tag == "OperationItem")
         {
-            if (coll.GetComponent<FireExtPinControl>())
+            if (col.GetComponent<FireExtPinControl>())
             {
-                coll.GetComponent<FireExtPinControl>().ResetPinMove();
+                col.GetComponent<FireExtPinControl>().ResetPinMove();
             }
+        }
+        if (col.gameObject.layer == LayerMask.NameToLayer("UI"))
+        {
+            uiButtonChack = true;
         }
     }
 }
