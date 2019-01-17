@@ -10,7 +10,7 @@ public class MovingManager : MonoBehaviour
     [Header("컨트롤러 설정")]
     public float frictionValue = 2;
     public float accelerationTime = 2;
-    public float moveSpeed = 5;
+    public float moveSpeed;
     public float maxFindingRange_AxisY = 0.15f;
     public float maxFindingRange_AxisX = 0.3f;
     public float maxFindingRange__AxisZ = 0.1f;
