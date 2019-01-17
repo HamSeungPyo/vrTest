@@ -21,7 +21,8 @@ GameObject:
   - component: {fileID: 4668562792090492}
   - component: {fileID: 54843512592162320}
   - component: {fileID: 65950058901227148}
-  m_Layer: 5
+  - component: {fileID: 114002293933175950}
+  m_Layer: 8
   m_Name: GasMaskOpen_Axis
   m_TagString: Item
   m_Icon: {fileID: 0}
@@ -36,7 +37,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4891132760288338}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: GasMaskOpen_Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +54,7 @@ GameObject:
   - component: {fileID: 4385158005204752}
   - component: {fileID: 33252474269918040}
   - component: {fileID: 23700516388858442}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Acryl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +71,7 @@ GameObject:
   - component: {fileID: 4091423926409232}
   - component: {fileID: 33190051424913280}
   - component: {fileID: 23364303279146912}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Object001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +111,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1086784762284724}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 0.30650347, y: 1.7032863, z: -0.729}
+  m_LocalPosition: {x: -0.36825722, y: 7.72455e-17, z: -3.4788282}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4891132760288338}
@@ -241,3 +242,14 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.18, y: 0.2, z: 0.3}
   m_Center: {x: 0, y: -0.055, z: 0}
+--- !u!114 &114002293933175950
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1086784762284724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 233453663d7dfba418af460dc998180d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

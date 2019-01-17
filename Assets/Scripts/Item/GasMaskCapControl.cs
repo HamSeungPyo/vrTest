@@ -7,6 +7,7 @@ public class GasMaskCapControl : MonoBehaviour
     public GasMaskManager script_GasMask;
     public void CapDestroy()
     {
+        gameObject.layer = LayerMask.NameToLayer("JunkItem");
         Destroy(gameObject,1);
     }
     public void GetHolding()

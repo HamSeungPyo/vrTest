@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 4303287502567456}
   - component: {fileID: 33405931066619874}
   - component: {fileID: 23662582741042412}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Fabric
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 4270017819415898}
   - component: {fileID: 33263607078794704}
   - component: {fileID: 23552391304232500}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Acryl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,9 +123,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4713528314694684}
-  m_Layer: 0
+  - component: {fileID: 65259365539568760}
+  - component: {fileID: 114248611625513822}
+  m_Layer: 8
   m_Name: GasMaskFolded_Item
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -176,7 +178,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1454979867854276}
   m_LocalRotation: {x: 0.7071068, y: 0.7071068, z: 0, w: 0}
-  m_LocalPosition: {x: 0.044, y: 1.6639, z: -0.774}
+  m_LocalPosition: {x: -0.156, y: 1.6639, z: -0.774}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4713528314694684}
@@ -417,10 +419,22 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65259365539568760
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1862126045380490}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.2, y: 0.1, z: 0.1}
+  m_Center: {x: 0, y: 0.26, z: 0.05}
 --- !u!65 &65443628116438202
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -445,6 +459,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.08, z: 0.1}
   m_Center: {x: 0, y: -0.02, z: 0.03}
+--- !u!114 &114248611625513822
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1862126045380490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4ce56ee01f16084c9b119dcf819638c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gasMaskFolded: {fileID: 1342417761472166, guid: 8976f8cc5fe9ac247aff465a0e01af05,
+    type: 2}
+  script_GasMask: {fileID: 114819935567849088}
 --- !u!114 &114396475167369316
 MonoBehaviour:
   m_ObjectHideFlags: 1

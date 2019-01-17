@@ -6,12 +6,15 @@ using Valve.VR;
 [RequireComponent(typeof(SteamVR_TrackedObject))]
 public class ControllerControl : MonoBehaviour
 {
+    public GameObject gasMasItem;
+    public PlayerCollider script_PlayerCollider;
     SteamVR_TrackedObject trackedObj;
     GameObject itemHolding;
     public GameObject hand;
     bool bTriggerPressDown = false;
     bool bTouchpadPressDown = false;
     bool bItemToHandHolded=false;
+    
     void Start ()
     {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
@@ -26,10 +29,36 @@ public class ControllerControl : MonoBehaviour
             bTriggerPressDown = true;
             if (itemHolding != null)
             {
-                if(itemHolding.GetComponent<FireExtManager>())
+                if (itemHolding.GetComponent<FireExtManager>())
                     itemHolding.GetComponent<FireExtManager>().GetPinState();
-                else if(itemHolding.GetComponent<FireExtBottelManager>())
+                else if (itemHolding.GetComponent<FireExtBottelManager>())
                     itemHolding.GetComponent<FireExtBottelManager>().ItemHolding(true);
+                else if (itemHolding.GetComponent<GasMaskFoldedOpenControl>())
+                {
+                    GameObject obj = itemHolding;
+                    var origin = trackedObj.origin ? trackedObj.origin : trackedObj.transform.parent;
+                    itemHolding = itemHolding.GetComponent<GasMaskFoldedOpenControl>().GetGasMask(origin.TransformVector(device.velocity), itemHolding);
+
+                    if (itemHolding != obj)
+                    {
+                        itemHolding = Instantiate(itemHolding);
+                        itemHolding.GetComponent<Rigidbody>().isKinematic = true;
+                        if (itemHolding.GetComponent<CapsuleCollider>())
+                            itemHolding.GetComponent<CapsuleCollider>().enabled = false;
+                        else if (itemHolding.GetComponent<BoxCollider>())
+                            itemHolding.GetComponent<BoxCollider>().enabled = false;
+                        itemHolding.transform.parent = transform;
+                        itemHolding.transform.localPosition = Vector3.zero;
+                        itemHolding.transform.localEulerAngles = Vector3.zero;
+                    }
+                }
+                else if (itemHolding.GetComponent<GasMaskOpen_Axis>()&& bPlayerHelmet)
+                {
+                    Destroy(itemHolding);
+                    script_PlayerCollider.SasMaskWear(true);
+                    itemHolding = null;
+                    bItemToHandHolded = false;
+                }
             }
         }
         else
@@ -64,8 +93,8 @@ public class ControllerControl : MonoBehaviour
                         var origin = trackedObj.origin ? trackedObj.origin : trackedObj.transform.parent;
                         itemHolding.GetComponent<Rigidbody>().velocity = origin.TransformVector(device.velocity);
                         itemHolding.GetComponent<Rigidbody>().angularVelocity = origin.TransformVector(device.angularVelocity);
-                        
                     }
+
                     itemHolding = null;
                 }
             }
@@ -89,6 +118,7 @@ public class ControllerControl : MonoBehaviour
 
     }
     bool uiButtonChack = true;
+    bool bPlayerHelmet = false;
     private void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.layer == LayerMask.NameToLayer("UI") && uiButtonChack)
@@ -99,20 +129,48 @@ public class ControllerControl : MonoBehaviour
                 col.GetComponent<RayButtonControl>().touchEvent.Invoke();
             }
         }
+        if (col.gameObject.layer == LayerMask.NameToLayer("PlayerHelmet")&&test)
+        {
+            test = false;
+            bPlayerHelmet = true;
+        }
     }
-    private void OnTriggerStay(Collider coll)
+    bool test = true;
+    private void OnTriggerStay(Collider col)
     {
         if (!bItemToHandHolded)
         {
             if (bTriggerPressDown)
             {
-                if (coll.tag == "Item")
+                bool bGasMask = false;
+                if (col.gameObject.layer == LayerMask.NameToLayer("PlayerHelmet"))
+                {
+                    bGasMask = script_PlayerCollider.GetGasMask();
+                }
+
+                if (bGasMask)
+                {                    
+                    bItemToHandHolded = true;
+                    itemHolding = Instantiate(gasMasItem);
+                    script_PlayerCollider.SasMaskWear(false);
+                    test = false;
+                    itemHolding.GetComponent<Rigidbody>().isKinematic = true;
+
+                    if (itemHolding.GetComponent<CapsuleCollider>())
+                        itemHolding.GetComponent<CapsuleCollider>().enabled = false;
+                    else if (itemHolding.GetComponent<BoxCollider>())
+                        itemHolding.GetComponent<BoxCollider>().enabled = false;
+                    itemHolding.transform.parent = transform;
+                    itemHolding.transform.localPosition = Vector3.zero;
+                    itemHolding.transform.localEulerAngles = Vector3.zero;
+                }
+                else if (col.tag == "Item")
                 {
                     bItemToHandHolded = true;
-                    itemHolding = coll.gameObject;
-                    if (itemHolding.GetComponent<GetGasMaskOpen>())
+                    itemHolding = col.gameObject;
+                    if (itemHolding.GetComponent<GasMaskFolded>())
                     {
-                        GameObject gasMask= itemHolding.GetComponent<GetGasMaskOpen>().GetGasMask();
+                        GameObject gasMask = itemHolding.GetComponent<GasMaskFolded>().GetGasMask();
                         itemHolding = Instantiate(gasMask);
                     }
 
@@ -141,29 +199,29 @@ public class ControllerControl : MonoBehaviour
                         itemHolding.GetComponent<GasMaskCapControl>().GetHolding();
                     }
                 }
-                else if (coll.tag == "OperationItem")
+                else if (col.tag == "OperationItem")
                 {
-                    if (coll.GetComponent<FireExtPinControl>())
+                    if (col.GetComponent<FireExtPinControl>())
                     {
-                        coll.GetComponent<FireExtPinControl>().SetPinMove(transform.position);
+                        col.GetComponent<FireExtPinControl>().SetPinMove(transform.position);
                     }
                 }
 
             }
             else
             {
-                if (coll.tag == "OperationItem")
+                if (col.tag == "OperationItem")
                 {
-                    if (coll.GetComponent<FireExtPinControl>())
+                    if (col.GetComponent<FireExtPinControl>())
                     {
-                        coll.GetComponent<FireExtPinControl>().ResetPinMove();
+                        col.GetComponent<FireExtPinControl>().ResetPinMove();
                     }
                 }
             }
         }
         else
         {
-            if (coll.tag == "Player")
+            if (col.tag == "Player")
             {
 
             }
@@ -181,6 +239,11 @@ public class ControllerControl : MonoBehaviour
         if (col.gameObject.layer == LayerMask.NameToLayer("UI"))
         {
             uiButtonChack = true;
+        }
+        if (col.gameObject.layer == LayerMask.NameToLayer("PlayerHelmet")&& !test)
+        {
+            bPlayerHelmet = false;
+            test = true;
         }
     }
 }

@@ -4,8 +4,20 @@ using UnityEngine;
 
 public class PlayerCollider : MonoBehaviour
 {
+    public GameObject gasMask;
     bool bReceiveDamage;
     GameObject chack;
+    bool bGasMask = false;
+
+    public void SasMaskWear(bool set)
+    {
+        bGasMask = set;
+        gasMask.SetActive(bGasMask);
+    }
+    public bool GetGasMask()
+    {
+        return bGasMask;
+    }
     public bool ReceiveDamage
     {
         get
