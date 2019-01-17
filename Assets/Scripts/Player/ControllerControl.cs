@@ -21,12 +21,6 @@ public class ControllerControl : MonoBehaviour
         var device = SteamVR_Controller.Input((int)trackedObj.index);
 
 
-        
-        /*if (origin != null)
-        {
-            rigidbody.velocity = origin.TransformVector(device.velocity);
-            rigidbody.angularVelocity = origin.TransformVector(device.angularVelocity);
-        }*/
         if (device.GetPress(SteamVR_Controller.ButtonMask.Trigger))
         {
             bTriggerPressDown = true;
@@ -34,7 +28,7 @@ public class ControllerControl : MonoBehaviour
             {
                 if(itemHolding.GetComponent<FireExtManager>())
                     itemHolding.GetComponent<FireExtManager>().GetPinState();
-                else
+                else if(itemHolding.GetComponent<FireExtBottelManager>())
                     itemHolding.GetComponent<FireExtBottelManager>().ItemHolding(true);
             }
         }
@@ -48,15 +42,22 @@ public class ControllerControl : MonoBehaviour
                 {
                     if (itemHolding.GetComponent<FireExtManager>())
                         itemHolding.GetComponent<FireExtManager>().StartingFireExtinguisher(false);
-                    else
+                    else if (itemHolding.GetComponent<FireExtBottelManager>())
                         itemHolding.GetComponent<FireExtBottelManager>().ItemHolding(false);
+                    else if (itemHolding.GetComponent<FireHeadFollow>())
+                        itemHolding.GetComponent<FireHeadFollow>().StopFollow();
 
-                    itemHolding.GetComponent<Rigidbody>().isKinematic = false;
                     itemHolding.GetComponent<CapsuleCollider>().enabled = true;
-                    itemHolding.transform.parent = null;
-                    var origin = trackedObj.origin ? trackedObj.origin : trackedObj.transform.parent;
-                    itemHolding.GetComponent<Rigidbody>().velocity = origin.TransformVector(device.velocity);
-                    itemHolding.GetComponent<Rigidbody>().angularVelocity = origin.TransformVector(device.angularVelocity);
+                    
+                    if (itemHolding.GetComponent<Rigidbody>())
+                    {
+                        itemHolding.GetComponent<Rigidbody>().isKinematic = false;
+                        itemHolding.transform.parent = null;
+                        var origin = trackedObj.origin ? trackedObj.origin : trackedObj.transform.parent;
+                        itemHolding.GetComponent<Rigidbody>().velocity = origin.TransformVector(device.velocity);
+                        itemHolding.GetComponent<Rigidbody>().angularVelocity = origin.TransformVector(device.angularVelocity);
+                        
+                    }
                     itemHolding = null;
                 }
             }
@@ -82,6 +83,7 @@ public class ControllerControl : MonoBehaviour
     {
         if (col.gameObject.layer == LayerMask.NameToLayer("UI") && uiButtonChack)
         {
+            Debug.Log("asd");
             uiButtonChack = false;
             col.GetComponent<RayButtonControl>().touchEvent.Invoke();
         }
@@ -96,11 +98,18 @@ public class ControllerControl : MonoBehaviour
                 {
                     bItemToHandHolded = true;
                     itemHolding = coll.gameObject;
-                    itemHolding.GetComponent<Rigidbody>().isKinematic = true;
-                    itemHolding.GetComponent<CapsuleCollider>().enabled = false;
-                    itemHolding.transform.parent = transform;
-                    itemHolding.transform.localPosition = Vector3.zero;
-                    itemHolding.transform.localEulerAngles = Vector3.zero;
+                    if (itemHolding.GetComponent<FireHeadFollow>())
+                    {
+                        itemHolding.GetComponent<FireHeadFollow>().StartFollow(gameObject);
+                    }
+                    else
+                    {
+                        itemHolding.GetComponent<Rigidbody>().isKinematic = true;
+                        itemHolding.GetComponent<CapsuleCollider>().enabled = false;
+                        itemHolding.transform.parent = transform;
+                        itemHolding.transform.localPosition = Vector3.zero;
+                        itemHolding.transform.localEulerAngles = Vector3.zero;
+                    }
                 }
                 else if (coll.tag == "OperationItem")
                 {

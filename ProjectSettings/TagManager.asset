@@ -12,6 +12,8 @@ TagManager:
   - EnemyItme
   - Water
   - BottelAttack
+  - FxTemporaire
+  - projectile
   layers:
   - Default
   - TransparentFX
@@ -26,7 +28,7 @@ TagManager:
   - Player
   - Enemy
   - Enemy_Attack
-  - 
+  - UIAppear
   - 
   - 
   - 

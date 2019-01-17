@@ -84,7 +84,7 @@ public class UI_InstructionControl : MonoBehaviour
 
     public void SetClassification(int num)
     {
-        if (0 <= number[0] + num && number[0] + num < dataBase.Count)
+        if (0 <= number[0] + num && number[0] + num < classification.Length)
         {
             number[0] += num;
             InstructionControl(number);
@@ -92,7 +92,7 @@ public class UI_InstructionControl : MonoBehaviour
     }
     public void SetType(int num)
     {
-        if (0 <= number[1]+num && number[1]+ num < classification.Length)
+        if (0 <= number[1]+num && number[1]+ num < dataBase.Count)
         {
             number[1] += num;
             InstructionControl(number);
