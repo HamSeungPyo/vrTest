@@ -46,9 +46,17 @@ public class ControllerControl : MonoBehaviour
                         itemHolding.GetComponent<FireExtBottelManager>().ItemHolding(false);
                     else if (itemHolding.GetComponent<FireHeadFollow>())
                         itemHolding.GetComponent<FireHeadFollow>().StopFollow();
+                    else if (itemHolding.GetComponent<GasMaskCapControl>())
+                        itemHolding.GetComponent<GasMaskCapControl>().CapDestroy();
+                    else if (itemHolding.GetComponent<GasMaskManager>())
+                        itemHolding.GetComponent<GasMaskManager>().GasMaskReset();
 
-                    itemHolding.GetComponent<CapsuleCollider>().enabled = true;
-                    
+
+                    if (itemHolding.GetComponent<CapsuleCollider>())
+                        itemHolding.GetComponent<CapsuleCollider>().enabled = true;
+                    else if (itemHolding.GetComponent<BoxCollider>())
+                        itemHolding.GetComponent<BoxCollider>().enabled = true;
+
                     if (itemHolding.GetComponent<Rigidbody>())
                     {
                         itemHolding.GetComponent<Rigidbody>().isKinematic = false;
@@ -75,6 +83,8 @@ public class ControllerControl : MonoBehaviour
         {
             if (itemHolding.GetComponent<FireExtManager>())
                 itemHolding.GetComponent<FireExtManager>().StartingFireExtinguisher(bTouchpadPressDown);
+            else if (itemHolding.GetComponent<FireExtSprayManager>())
+                itemHolding.GetComponent<FireExtSprayManager>().StartingFireExtinguisher(bTouchpadPressDown);
         }
 
     }
@@ -83,9 +93,11 @@ public class ControllerControl : MonoBehaviour
     {
         if (col.gameObject.layer == LayerMask.NameToLayer("UI") && uiButtonChack)
         {
-            Debug.Log("asd");
-            uiButtonChack = false;
-            col.GetComponent<RayButtonControl>().touchEvent.Invoke();
+            if (col.GetComponent<RayButtonControl>())
+            {
+                uiButtonChack = false;
+                col.GetComponent<RayButtonControl>().touchEvent.Invoke();
+            }
         }
     }
     private void OnTriggerStay(Collider coll)
@@ -98,6 +110,12 @@ public class ControllerControl : MonoBehaviour
                 {
                     bItemToHandHolded = true;
                     itemHolding = coll.gameObject;
+                    if (itemHolding.GetComponent<GetGasMaskOpen>())
+                    {
+                        GameObject gasMask= itemHolding.GetComponent<GetGasMaskOpen>().GetGasMask();
+                        itemHolding = Instantiate(gasMask);
+                    }
+
                     if (itemHolding.GetComponent<FireHeadFollow>())
                     {
                         itemHolding.GetComponent<FireHeadFollow>().StartFollow(gameObject);
@@ -105,10 +123,22 @@ public class ControllerControl : MonoBehaviour
                     else
                     {
                         itemHolding.GetComponent<Rigidbody>().isKinematic = true;
-                        itemHolding.GetComponent<CapsuleCollider>().enabled = false;
+
+                        if (itemHolding.GetComponent<CapsuleCollider>())
+                            itemHolding.GetComponent<CapsuleCollider>().enabled = false;
+                        else if (itemHolding.GetComponent<BoxCollider>())
+                            itemHolding.GetComponent<BoxCollider>().enabled = false;
                         itemHolding.transform.parent = transform;
                         itemHolding.transform.localPosition = Vector3.zero;
                         itemHolding.transform.localEulerAngles = Vector3.zero;
+                    }
+                    if (itemHolding.GetComponent<GasMaskManager>())
+                    {
+                        itemHolding.GetComponent<GasMaskManager>().GetHolding();
+                    }
+                    else if (itemHolding.GetComponent<GasMaskCapControl>())
+                    {
+                        itemHolding.GetComponent<GasMaskCapControl>().GetHolding();
                     }
                 }
                 else if (coll.tag == "OperationItem")

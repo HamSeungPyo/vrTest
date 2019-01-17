@@ -8,9 +8,10 @@ public class FireExtManager : MonoBehaviour
     public GameObject particle;
     public GameObject trigger;
     bool bStartingFireExtinguisher=false;
-
+    AudioSource sound;
     private void Awake()
     {
+        sound = GetComponent<AudioSource>();
         StartCoroutine(FireExtinguisherChack());
     }
 
@@ -35,6 +36,15 @@ public class FireExtManager : MonoBehaviour
         {
             particle.SetActive(set);
             trigger.SetActive(set);
+            if (set)
+            {
+                if (!sound.isPlaying)
+                    sound.Play();
+            }
+            else
+            {
+                sound.Stop();
+            }
         }
     }
     public bool GetPinState()

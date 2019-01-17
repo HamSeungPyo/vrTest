@@ -4,4 +4,28 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scens/Museum.unity
+    guid: 7ec7763c0318b0740ac6836c8625541f
+  - enabled: 1
+    path: Assets/Scens/PracticePlace01.unity
+    guid: ed295fed104fde8418190586013ecde1
+  - enabled: 1
+    path: Assets/Scens/PracticePlace02.unity
+    guid: 1a9fdcdb382784045ae6f585555ef3b8
+  - enabled: 1
+    path: Assets/Scens/PracticePlace03.unity
+    guid: cd433e9e85520664690e371f2e424434
+  - enabled: 1
+    path: Assets/Scens/PracticePlace04.unity
+    guid: 74bb79fe5422180498263369f2ae6413
+  - enabled: 1
+    path: Assets/Scens/PracticePlace05.unity
+    guid: 6f6a5a95194e8304eb4f5ba089963784
+  - enabled: 1
+    path: Assets/Scens/PracticePlace07.unity
+    guid: 7bf7c4e26633e1e4190cc54ecf04e219
+  - enabled: 1
+    path: Assets/Scens/PracticePlace08.unity
+    guid: bcc56e9292727684cb2dafecc951bb3d

@@ -6,7 +6,7 @@ public class FireExtBottelManager : MonoBehaviour
 {
     public GameObject renderer;
     public GameObject effect;
-    public float impactPower = 2;
+    float impactPower = 4;
     bool bVelocity = false;
     bool bHolding = false;
 
@@ -39,9 +39,9 @@ public class FireExtBottelManager : MonoBehaviour
     IEnumerator StartEffect()
     {
         GameObject startEffect = Instantiate(effect, transform.position, Quaternion.identity);
-        renderer.GetComponent<MeshRenderer>().enabled = false;
+        renderer.SetActive(false);
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.8f);
         Destroy(startEffect);
         Destroy(gameObject);
     }

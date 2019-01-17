@@ -10,8 +10,8 @@ public class InstructionDataBase
     public Sprite type;
     public Sprite composition;
     public Sprite howToUse;
-    string storageMethod = "잘 보이고 사용하기 편리한 위치에 둔다\n습기가 적고 서늘한 곳에 둔다\n소화기 위에 어떤 물건도 놓지 않는다";
-    public string StorageMethod { get { return storageMethod; } }
+    [TextArea]
+    public string storageMethod = "잘 보이고 사용하기 편리한 위치에 둔다\n습기가 적고 서늘한 곳에 둔다\n소화기 위에 어떤 물건도 놓지 않는다";
     [TextArea]
     public string howToManaged;
     [TextArea]
@@ -57,7 +57,7 @@ public class UI_InstructionControl : MonoBehaviour
                 break;
             case 3:
                 bSwitching = true;
-                instructionText[2].text = dataBase[num[1]].StorageMethod;
+                instructionText[2].text = dataBase[num[1]].storageMethod;
                 break;
             case 4:
                 bSwitching = true;
